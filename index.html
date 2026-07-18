@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ВИТОКИ | Сучасні українські традиції</title>
+    <!-- Підключення шрифтів: Cormorant Garamond для заголовків та Montserrat для тексту -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ЗМІННІ ТА БАЗОВІ НАЛАШТУВАННЯ --- */
+        :root {
+            --bg-color: #FBF9F6; /* Теплий білий, як льон */
+            --text-color: #1A1A1A;
+            --accent-color: #B22222; /* Глибокий червоний колір вишивки */
+            --border-color: #E0DCD3;
+            --font-head: 'Cormorant Garamond', serif;
+            --font-body: 'Montserrat', sans-serif;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: var(--font-body);
+        }
+
+        /* --- ОРНАМЕНТ (ВИШИВАНКА) --- */
+        .ornament-line {
+            height: 12px;
+            width: 100%;
+            /* Геометричний патерн, що імітує хрестик/ромби */
+            background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2L22 12L12 22L2 12Z' fill='none' stroke='%23B22222' stroke-width='1.5' opacity='0.3'/%3E%3Cpath d='M12 6L18 12L12 18L6 12Z' fill='%23B22222' opacity='0.1'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-position: center;
+        }
+
+        /* --- ШАПКА САЙТУ (HEADER) --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(251, 249, 246, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .icon-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        /* --- ГЕРОЙ-СЕКЦІЯ (HERO) --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-family: var(--font-head);
+            font-size: clamp(40px, 6vw, 80px);
+            font-weight: 400;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero h1 i {
+            color: var(--accent-color);
+        }
+
+        .hero p {
+            font-size: 16px;
+            max-width: 600px;
+            margin-bottom: 40px;
+            color: #555;
+            font-weight: 300;
+        }
+
+        .btn-primary {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 15px 40px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid var(--text-color);
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--text-color);
+        }
+
+        /* --- КАТАЛОГ (GRID) --- */
+        .catalog-section {
+            padding: 80px 5%;
+        }
+
+        .section-title {
+            font-family: var(--font-head);
+            font-size: 40px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            cursor: pointer;
+            group: product;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-image {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background-color: #E8E5DF; /* Placeholder color */
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .card-image::after {
+            content: "Фото товару";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #999;
+            font-weight: 300;
+            font-size: 14px;
+        }
+
+        .card-title {
+            font-family: var(--font-head);
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .card-price {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--accent-color);
+        }
+
+        /* --- МОДАЛЬНЕ ВІКНО ТОВАРУ --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--bg-color);
+            width: 90%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-radius: 8px;
+            overflow: hidden;
+            transform: translateY(50px) scale(0.95);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .modal-img {
+            background: #E8E5DF;
+            min-height: 400px;
+        }
+
+        .modal-info {
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .modal-info h2 {
+            font-family: var(--font-head);
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .modal-info .price {
+            font-size: 24px;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+        }
+
+        .modal-info p {
+            font-weight: 300;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        /* --- БОКОВЕ МЕНЮ ТА КОШИК --- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px; /* Hidden state */
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background: var(--bg-color);
+            z-index: 1001;
+            padding: 80px 40px 40px;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .sidebar-title {
+            font-family: var(--font-head);
+            font-size: 28px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .nav-links li {
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            font-size: 20px;
+            font-weight: 300;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+            padding-left: 10px;
+        }
+
+        /* --- ФУТЕР --- */
+        footer {
+            background: var(--text-color);
+            color: var(--bg-color);
+            padding: 60px 5% 20px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-head);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            font-weight: 300;
+            font-size: 14px;
+        }
+
+        .footer-bottom {
+            font-size: 12px;
+            color: #888;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
+
+        /* --- АДАПТИВНІСТЬ --- */
+        @media (max-width: 768px) {
+            .modal-content {
+                grid-template-columns: 1fr;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            .modal-img {
+                min-height: 300px;
+            }
+            .modal-info {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ШАПКА -->
+    <header>
+        <div class="logo">Ви<span>токи</span></div>
+        <div class="header-actions">
+            <!-- Іконка улюбленого -->
+            <button class="icon-btn" onclick="alert('Додано до обраного!')">
+                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            </button>
+            <!-- Іконка кошика -->
+            <button class="icon-btn" onclick="toggleSidebar('cart')">
+                <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            </button>
+            <!-- Іконка меню -->
+            <button class="icon-btn" onclick="toggleSidebar('menu')">
+                <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- СЕКЦІЯ ГЕРОЙ -->
+    <section class="hero">
+        <div class="ornament-line" style="margin-bottom: 40px; max-width: 200px;"></div>
+        <h1>Душа в кожній <i>нитці</i></h1>
+        <p>Сучасне переосмислення українських традицій. Ексклюзивні вироби з натурального воску, кераміки та текстилю, створені з любов'ю до рідної землі.</p>
+        <button class="btn-primary" onclick="document.getElementById('catalog').scrollIntoView({behavior: 'smooth'})">До каталогу</button>
+    </section>
+
+    <!-- ОРНАМЕНТ-РОЗДІЛЮВАЧ -->
+    <div class="ornament-line"></div>
+
+    <!-- КАТАЛОГ -->
+    <section class="catalog-section" id="catalog">
+        <h2 class="section-title">Колекція "Спадщина"</h2>
+        <div class="grid">
+            
+            <!-- Товар 1 -->
+            <div class="card" onclick="openProduct('Свічка з бджолиного воску', '1 250 ₴', 'Натуральна свічка ручної роботи. Виготовлена з чистого бджолиного воску з додаванням аромату карпатських трав. Орнамент нанесено вручну.')">
+                <div class="card-image"></div>
+                <h3 class="card-title">Свічка "Оберіг"</h3>
+                <p class="card-price">1 250 ₴</p>
+            </div>
+
+            <!-- Товар 2 -->
+            <div class="card" onclick="openProduct('Керамічний свічник', '850 ₴', 'Свічник з чорної кераміки, виконаний за традиційною гаварецькою технологією. Ідеально підходить для створення затишку в оселі.')">
+                <div class="card-image"></div>
+                <h3 class="card-title">Свічник "Гавареччина"</h3>
+                <p class="card-price">850 ₴</p>
+            </div>
+
+            <!-- Товар 3 -->
+            <div class="card" onclick="openProduct('Традиційна вишиванка', '4 500 ₴', 'Сучасний крій та старовинні орнаменти Поділля. Натуральний льон 100%. Ідеально пасує як до святкового, так і до повсякденного образу.')">
+                <div class="card-image"></div>
+                <h3 class="card-title">Вишиванка "Поділля"</h3>
+                <p class="card-price">4 500 ₴</p>
+            </div>
+
+            <!-- Товар 4 -->
+            <div class="card" onclick="openProduct('Набір писанок', '1 600 ₴', 'Дерев’яні писанки, розписані майстрами вручну за автентичними ескізами XIX століття. Чудовий подарунок на свята.')">
+                <div class="card-image"></div>
+                <h3 class="card-title">Набір "Великдень"</h3>
+                <p class="card-price">1 600 ₴</p>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="ornament-line"></div>
+
+    <!-- ФУТЕР -->
+    <footer>
+        <div class="footer-logo">ВИТОКИ</div>
+        <ul class="footer-links">
+            <li><a href="#">Про нас</a></li>
+            <li><a href="#">Доставка та оплата</a></li>
+            <li><a href="#">Контакти</a></li>
+            <li><a href="#">Договір оферти</a></li>
+        </ul>
+        <div class="footer-bottom">
+            © 2026 Витоки. Всі права захищені. Зроблено з любов'ю в Україні.
+        </div>
+    </footer>
+
+    <!-- МОДАЛЬНЕ ВІКНО ТОВАРУ -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-content">
+            <button class="modal-close icon-btn" onclick="closeProduct()">
+                <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="modal-img"></div>
+            <div class="modal-info">
+                <h2 id="modalTitle">Назва товару</h2>
+                <div class="price" id="modalPrice">0 ₴</div>
+                <p id="modalDesc">Опис товару з'явиться тут...</p>
+                <button class="btn-primary">Додати у кошик</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- БОКОВЕ МЕНЮ / КОШИК -->
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-close icon-btn" onclick="toggleSidebar(null)">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <h2 class="sidebar-title" id="sidebarTitle">Меню</h2>
+        
+        <!-- Контент меню -->
+        <div id="menuContent" style="display: none;">
+            <ul class="nav-links">
+                <li><a href="#">Головна</a></li>
+                <li><a href="#">Каталог виробів</a></li>
+                <li><a href="#">Історія традицій</a></li>
+                <li><a href="#">Блог</a></li>
+                <li><a href="#">Контакти</a></li>
+            </ul>
+        </div>
+
+        <!-- Контент кошика -->
+        <div id="cartContent" style="display: none;">
+            <p style="font-weight: 300; text-align: center; margin-top: 50px; color: #888;">Ваш кошик наразі порожній.</p>
+            <button class="btn-primary" style="width: 100%; margin-top: 30px;" onclick="toggleSidebar(null)">Продовжити покупки</button>
+        </div>
+    </div>
+    
+    <!-- Затемнення для бокового меню -->
+    <div class="modal-overlay" id="sidebarOverlay" onclick="toggleSidebar(null)" style="z-index: 1000;"></div>
+
+    <!-- СКРИПТИ -->
+    <script>
+        // Відкриття картки товару
+        function openProduct(title, price, desc) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalPrice').innerText = price;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('productModal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Заборона скролу
+        }
+
+        // Закриття картки товару
+        function closeProduct() {
+            document.getElementById('productModal').classList.remove('active');
+            document.body.style.overflow = 'auto'; // Відновлення скролу
+        }
+
+        // Керування боковою панеллю (Меню або Кошик)
+        function toggleSidebar(type) {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const title = document.getElementById('sidebarTitle');
+            const menuContent = document.getElementById('menuContent');
+            const cartContent = document.getElementById('cartContent');
+
+            if (type === 'menu') {
+                title.innerText = 'Навігація';
+                menuContent.style.display = 'block';
+                cartContent.style.display = 'none';
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else if (type === 'cart') {
+                title.innerText = 'Кошик';
+                menuContent.style.display = 'none';
+                cartContent.style.display = 'block';
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                // Закриття
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Закриття модального вікна при кліку на фон
+        document.getElementById('productModal').addEventListener('click', function(e) {
+            if(e.target === this) {
+                closeProduct();
+            }
+        });
+    </script>
+</body>
+</html>
