@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Voskova Svichka — Ручні воскові свічки</title>
+<meta name="description" content="Voskova Svichka — свічки з українського воску, виготовлені вручну.">
+
+<!-- Fraunces (тепла, м'яка антиква для заголовків) + Inter (нейтральний, чіткий текстовий шрифт) —
+     сучасна пара, яку зараз використовує більшість незалежних DTC-брендів. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,440;0,9..144,560;1,9..144,440&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================================
+   1. ДИЗАЙН-ТОКЕНИ — тепла нейтральна палітра, один акцент, без пафосу
+   ========================================================================== */
+:root{
+  --bg: #FBF8F7;          /* майже білий, ледь теплий фон */
+  --bg-alt: #F5EBEA;      /* дуже світлий припилений рожевувато-білий для секцій */
+  --card: #FFFFFF;
+  --ink: #241716;         /* майже чорний з червоним підтоном */
+  --ink-60: rgba(36,23,22,0.62);
+  --ink-40: rgba(36,23,22,0.4);
+  --line: rgba(36,23,22,0.1);
+  --line-strong: rgba(36,23,22,0.16);
+  --accent: #A23B3B;      /* приглушений, неяскравий червоний */
+  --accent-dark: #7C2B2B;
+  --accent-tint: #F2DCDA;
+
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Inter', sans-serif;
+
+  --bar-h: 72px;
+  --shadow-sm: 0 1px 2px rgba(38,32,25,0.05);
+  --shadow-md: 0 10px 30px rgba(38,32,25,0.08);
+  --shadow-lg: 0 24px 60px rgba(38,32,25,0.14);
+}
+
+*{ box-sizing: border-box; margin: 0; padding: 0; }
+html{ scroll-behavior: smooth; }
+
+body{
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  font-size: 15.5px;
+  line-height: 1.5;
+}
+
+a{ color: inherit; text-decoration: none; }
+button{ font-family: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+ul{ list-style: none; }
+img{ max-width: 100%; display:block; }
+::selection{ background: var(--accent-tint); color: var(--accent-dark); }
+
+::-webkit-scrollbar{ width: 8px; }
+::-webkit-scrollbar-track{ background: transparent; }
+::-webkit-scrollbar-thumb{ background: var(--line-strong); border-radius: 10px; }
+
+h1,h2,h3,h4{ font-family: var(--font-display); font-weight: 560; letter-spacing: -0.01em; color: var(--ink); }
+.eyebrow{
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   2. БАЗОВІ КОМПОНЕНТИ — плоскі картки, тонкі межі, м'які тіні тільки на hover
+   ========================================================================== */
+.card{
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn{
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 0.86rem;
+  font-weight: 600;
+  transition: transform 0.35s var(--ease), opacity 0.3s var(--ease);
+}
+.btn:hover{ opacity: 0.85; transform: translateY(-1px); }
+.btn:active{ transform: translateY(0); }
+.btn-accent{ background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-accent:hover{ background: var(--accent-dark); border-color: var(--accent-dark); opacity: 1; }
+.btn-outline{ background: transparent; color: var(--ink); border: 1px solid var(--line-strong); }
+.btn-outline:hover{ border-color: var(--ink); opacity: 1; }
+.btn-block{ width: 100%; }
+
+/* ==========================================================================
+   3. ШАПКА
+   ========================================================================== */
+.topbar{
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 40;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px clamp(16px, 4vw, 48px);
+  background: rgba(247,242,234,0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+.topbar.scrolled{ border-bottom-color: var(--line); }
+
+.logo{ display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.logo-mark{ width: 34px; height: 34px; flex-shrink: 0; }
+.logo-word{ font-family: var(--font-display); font-size: 1.15rem; font-weight: 560; letter-spacing: -0.01em; }
+
+.icon-btn{
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  position: relative;
+  border: 1px solid var(--line-strong);
+  transition: border-color 0.3s, background 0.3s;
+}
+.icon-btn:hover{ border-color: var(--ink); background: var(--card); }
+.icon-btn svg{ width: 18px; height: 18px; stroke: var(--ink); }
+.cart-count{
+  position: absolute; top: -5px; right: -5px;
+  min-width: 18px; height: 18px; padding: 0 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.62rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--bg);
+  transition: transform 0.3s var(--ease);
+}
+.cart-count.bump{ animation: bump 0.4s var(--ease); }
+@keyframes bump{ 0%{transform:scale(1);} 40%{transform:scale(1.35);} 100%{transform:scale(1);} }
+
+/* ==========================================================================
+   4. СТОРІНКИ / РОУТИНГ
+   ========================================================================== */
+.page{
+  display: none;
+  min-height: 100vh;
+  padding: calc(90px + 1vh) clamp(16px, 5vw, 64px) calc(var(--bar-h) + 56px);
+}
+.page.active{ display: block; }
+.page.fade-in{ animation: pageFade 0.55s var(--ease); }
+@keyframes pageFade{
+  from{ opacity: 0; transform: translateY(10px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+.page-inner{ max-width: 1140px; margin: 0 auto; }
+
+/* ---- Головна ---- */
+.hero{
+  display: grid; grid-template-columns: 1fr 0.85fr; gap: 56px;
+  align-items: center;
+  min-height: 62vh;
+}
+.hero-copy .eyebrow{ display:block; margin-bottom: 16px; }
+.hero-copy h1{
+  font-size: clamp(2.4rem, 4.8vw, 3.9rem);
+  line-height: 1.08;
+  margin-bottom: 20px;
+}
+.hero-copy h1 em{ font-style: italic; color: var(--accent); }
+.hero-copy p{
+  font-size: 1rem; line-height: 1.7;
+  color: var(--ink-60);
+  max-width: 42ch;
+  margin-bottom: 30px;
+}
+.hero-ctas{ display: flex; gap: 12px; flex-wrap: wrap; }
+
+.hero-visual{ display: flex; align-items: center; justify-content: center; }
+.hero-photo{
+  width: min(420px, 85vw);
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  filter: saturate(0.92) contrast(1.03);
+}
+
+.section-title{ margin: 80px 0 32px; display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.section-title .eyebrow{ display: block; margin-bottom: 8px; }
+.section-title h2{ font-size: clamp(1.6rem, 3vw, 2.2rem); }
+.section-title-center{ text-align: center; }
+.section-title-center .eyebrow{ display: block; }
+
+.link-arrow{ display:inline-flex; align-items:center; gap:6px; font-size:0.84rem; font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--ink); padding-bottom: 2px; transition: gap 0.3s var(--ease); }
+.link-arrow:hover{ gap: 11px; }
+
+.value-grid{
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.value-card{ background: var(--card); padding: 32px 26px; }
+.value-card svg{ width: 24px; height: 24px; stroke: var(--accent); margin-bottom: 16px; }
+.value-card h3{ font-size: 1.15rem; margin-bottom: 8px; font-weight: 560; }
+.value-card p{ font-size: 0.87rem; line-height: 1.6; color: var(--ink-60); }
+
+/* ---- Каталог ---- */
+.catalog-head{ margin-bottom: 32px; max-width: 56ch; }
+.catalog-head h1{ font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 10px; }
+.catalog-head p{ color: var(--ink-60); }
+
+.filter-row{ display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.filter-chip{
+  padding: 8px 18px; border-radius: 999px; font-size: 0.8rem; font-weight: 500;
+  border: 1px solid var(--line-strong); color: var(--ink-60);
+  transition: all 0.25s var(--ease);
+}
+.filter-chip.active, .filter-chip:hover{ background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+.catalog-grid{
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px;
+}
+.product-card{
+  overflow: hidden;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s;
+  display: flex; flex-direction: column;
+}
+.product-card:hover{ transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--line-strong); }
+.product-media{
+  position: relative; height: 190px;
+  overflow: hidden;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--line);
+}
+.product-photo{
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.88) contrast(1.03);
+  transition: transform 0.6s var(--ease);
+}
+.product-card:hover .product-photo{ transform: scale(1.05); }
+/* Тонкий червонястий градієнт поверх фото — тримає всі знімки в одній палітрі */
+.product-media::after{
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(162,59,59,0) 55%, rgba(122,43,43,0.28) 100%);
+  pointer-events: none;
+}
+.product-badge{
+  position: absolute; top: 12px; left: 12px; z-index: 2;
+  font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 5px 10px; border-radius: 999px;
+  background: var(--card); color: var(--accent-dark); font-weight: 700;
+  border: 1px solid var(--line);
+}
+.product-body{ padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.product-cat{ font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-40); font-weight: 600; }
+.product-body h3{ font-size: 1.15rem; font-weight: 560; }
+.product-body p{ font-size: 0.82rem; line-height: 1.55; color: var(--ink-60); flex: 1; }
+.product-foot{ display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+.product-price{ font-family: var(--font-display); font-size: 1.15rem; font-weight: 560; }
+.add-btn{
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--ink); color: var(--bg);
+  transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.add-btn svg{ width: 16px; height: 16px; stroke: currentColor; }
+.add-btn:hover{ background: var(--accent); transform: scale(1.06); }
+
+/* ---- Про нас ---- */
+.about-hero{ max-width: 640px; margin-bottom: 56px; }
+.about-hero .eyebrow{ display:block; margin-bottom: 14px; }
+.about-hero h1{ font-size: clamp(2rem, 4.2vw, 3rem); margin-bottom: 18px; }
+.about-hero p{ color: var(--ink-60); line-height: 1.75; }
+
+.about-grid{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 56px; }
+.about-card{ background: var(--card); padding: 28px; }
+.about-card h3{ font-size: 1.2rem; margin-bottom: 10px; font-weight: 560; }
+.about-card p{ font-size: 0.88rem; line-height: 1.7; color: var(--ink-60); }
+
+.timeline{ display: flex; flex-direction: column; max-width: 680px; }
+.timeline-item{ display: grid; grid-template-columns: 76px 1fr; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.timeline-item:last-child{ border-bottom: none; }
+.timeline-item .yr{ font-family: var(--font-display); font-size: 1.25rem; color: var(--accent); font-weight: 560; }
+.timeline-item h4{ font-size: 1rem; margin-bottom: 5px; font-weight: 600; }
+.timeline-item p{ font-size: 0.84rem; color: var(--ink-60); line-height: 1.6; }
+
+/* ---- Кошик (сторінка) ---- */
+.cart-page-empty{ text-align: center; padding: 80px 20px; }
+.cart-page-empty svg{ width: 44px; height: 44px; stroke: var(--ink-40); margin: 0 auto 18px; }
+.cart-page-empty p{ color: var(--ink-60); margin-bottom: 22px; }
+
+/* ==========================================================================
+   5. БОКОВІ ПАНЕЛІ
+   ========================================================================== */
+.overlay{
+  position: fixed; inset: 0;
+  background: rgba(38,32,25,0.35);
+  z-index: 60;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+.overlay.show{ opacity: 1; pointer-events: auto; }
+
+.drawer{
+  position: fixed; top: 0; bottom: 0;
+  width: min(380px, 88vw);
+  z-index: 70;
+  padding: 24px 22px;
+  display: flex; flex-direction: column;
+  overflow-y: auto;
+  background: var(--bg);
+  transition: transform 0.5s var(--ease);
+}
+#menu-drawer{ left: 0; transform: translateX(-105%); border-right: 1px solid var(--line); }
+#menu-drawer.open{ transform: translateX(0); }
+#cart-drawer{ right: 0; transform: translateX(105%); border-left: 1px solid var(--line); }
+#cart-drawer.open{ transform: translateX(0); }
+
+.drawer-head{ display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.drawer-head h3{ font-size: 1.2rem; font-weight: 560; }
+.close-btn{
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--line-strong);
+  transition: border-color 0.3s;
+}
+.close-btn:hover{ border-color: var(--ink); }
+.close-btn svg{ width: 15px; height: 15px; stroke: var(--ink); }
+
+.drawer-nav{ display: flex; flex-direction: column; gap: 2px; margin-bottom: 26px; }
+.drawer-nav a{
+  padding: 12px 12px; border-radius: var(--radius-sm);
+  font-family: var(--font-display); font-size: 1.05rem; font-weight: 500;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.25s var(--ease);
+}
+.drawer-nav a:hover, .drawer-nav a.current{ background: var(--bg-alt); }
+.drawer-nav a svg{ width: 14px; height: 14px; stroke: var(--ink-40); }
+
+.drawer-divider{ height: 1px; background: var(--line); margin: 4px 0 20px; }
+
+.drawer-section h4{ font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-40); font-weight: 700; margin-bottom: 10px; }
+.drawer-philosophy p{ font-size: 0.85rem; line-height: 1.7; color: var(--ink-60); margin-bottom: 16px; }
+.drawer-philosophy p b{ color: var(--ink); font-weight: 600; }
+
+.pay-icons{ display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 18px; }
+.pay-chip{
+  flex: 1; min-width: 74px; padding: 10px 8px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--line);
+}
+.pay-chip svg{ height: 14px; width: auto; }
+
+.cart-items{ display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; flex: 1; }
+.cart-empty-msg{ text-align: center; padding: 36px 10px; color: var(--ink-60); font-size: 0.87rem; }
+.cart-item{
+  display: grid; grid-template-columns: 52px 1fr auto; gap: 12px; align-items: center;
+  padding: 10px; border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  animation: itemIn 0.4s var(--ease);
+}
+@keyframes itemIn{ from{ opacity:0; transform: translateX(10px);} to{ opacity:1; transform: translateX(0);} }
+.cart-item-media{ width: 52px; height: 52px; border-radius: 8px; background: var(--bg-alt); overflow: hidden; }
+.cart-item-photo{ width: 100%; height: 100%; object-fit: cover; filter: saturate(0.88); }
+.cart-item-info h5{ font-size: 0.9rem; font-weight: 600; margin-bottom: 3px; }
+.cart-item-info .price{ font-size: 0.78rem; color: var(--ink-60); }
+.qty-row{ display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+.qty-btn{
+  width: 20px; height: 20px; border-radius: 50%; font-size: 0.8rem;
+  border: 1px solid var(--line-strong);
+  display: flex; align-items: center; justify-content: center;
+}
+.qty-num{ font-size: 0.8rem; min-width: 14px; text-align: center; }
+.remove-btn{ justify-self: end; opacity: 0.45; transition: opacity 0.3s; }
+.remove-btn:hover{ opacity: 1; }
+.remove-btn svg{ width: 15px; height: 15px; stroke: var(--accent-dark); }
+
+.cart-summary{ border-top: 1px solid var(--line); padding-top: 16px; margin-top: auto; }
+.summary-row{ display: flex; justify-content: space-between; font-size: 0.84rem; color: var(--ink-60); margin-bottom: 8px; }
+.summary-row.total{ font-family: var(--font-display); font-size: 1.2rem; color: var(--ink); font-weight: 600; margin: 12px 0 16px; }
+
+/* ==========================================================================
+   6. НИЖНІЙ ФІКСОВАНИЙ БАР
+   ========================================================================== */
+.bottom-bar{
+  position: fixed; left: 0; right: 0; bottom: 0;
+  height: var(--bar-h);
+  z-index: 50;
+  display: flex; align-items: center; justify-content: space-around;
+  padding: 0 12px;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: rgba(247,242,234,0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--line);
+}
+.bar-btn{
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 8px 22px; border-radius: 14px;
+  color: var(--ink-40);
+  position: relative;
+  transition: color 0.3s var(--ease);
+}
+.bar-btn svg{ width: 20px; height: 20px; stroke: currentColor; }
+.bar-btn span{ font-size: 0.62rem; font-weight: 600; letter-spacing: 0.02em; }
+.bar-btn.active, .bar-btn:hover{ color: var(--ink); }
+.bar-btn .cart-count{ top: -2px; right: 10px; }
+
+@media (max-width: 880px){
+  .hero{ grid-template-columns: 1fr; text-align: center; gap: 26px; }
+  .hero-copy p{ margin-left: auto; margin-right: auto; }
+  .hero-ctas{ justify-content: center; }
+  .value-grid{ grid-template-columns: 1fr; }
+  .about-grid{ grid-template-columns: 1fr; }
+}
+@media (max-width: 520px){
+  .topbar{ padding: 14px 14px; }
+  .page{ padding-left: 14px; padding-right: 14px; }
+  .catalog-grid{ grid-template-columns: 1fr 1fr; gap: 10px; }
+  .product-media{ height: 120px; }
+  .product-media svg{ width: 44px; }
+  .product-body{ padding: 12px 12px 14px; }
+  .product-body h3{ font-size: 1rem; }
+  .bar-btn{ padding: 8px 14px; }
+  .drawer{ width: 100vw; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+a:focus-visible, button:focus-visible{
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+</style>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <a class="logo" onclick="navigateTo('home')" aria-label="Voskova Svichka — на головну">
+    <svg class="logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="19" stroke="#241716" stroke-width="1"/>
+      <text x="20" y="26" text-anchor="middle" font-family="Fraunces, serif" font-size="15" font-weight="560" fill="#241716">VS</text>
+    </svg>
+    <span class="logo-word">Voskova Svichka</span>
+  </a>
+  <button class="icon-btn" onclick="openCart()" aria-label="Кошик">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12L4 3H2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
+    <span class="cart-count" id="cart-count-top">0</span>
+  </button>
+</header>
+
+<div class="overlay" id="overlay" onclick="closeAllDrawers()"></div>
+
+<!-- ЛІВА ПАНЕЛЬ — МЕНЮ -->
+<aside class="drawer" id="menu-drawer" aria-label="Головне меню">
+  <div class="drawer-head">
+    <h3>Меню</h3>
+    <button class="close-btn" onclick="closeMenu()" aria-label="Закрити меню">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <nav class="drawer-nav" id="drawer-nav">
+    <a data-page="home" onclick="navigateTo('home'); closeMenu();">Головна
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a data-page="catalog" onclick="navigateTo('catalog'); closeMenu();">Каталог
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a data-page="about" onclick="navigateTo('about'); closeMenu();">Про нас
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a data-page="cart" onclick="navigateTo('cart'); closeMenu();">Кошик
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+  </nav>
+
+  <div class="drawer-divider"></div>
+
+  <div class="drawer-section drawer-philosophy">
+    <h4>Філософія воску</h4>
+    <p><b>Voskova Svichka</b> — це бджолиний і соєвий віск з українських пасік, без парафіну й синтетики.</p>
+    <p>Кожна свічка витоплюється вручну, малими партіями. Ґніт — бавовняний, без металевого осердя.</p>
+  </div>
+
+  <div class="pay-icons" aria-label="Способи оплати">
+    <div class="pay-chip"><svg viewBox="0 0 48 16" xmlns="http://www.w3.org/2000/svg"><text x="0" y="13" font-family="Inter" font-weight="700" font-size="13" fill="#241716" font-style="italic">VISA</text></svg></div>
+    <div class="pay-chip"><svg viewBox="0 0 30 18" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="9" r="8" fill="#A23B3B" opacity="0.85"/><circle cx="19" cy="9" r="8" fill="#241716" opacity="0.75"/></svg></div>
+    <div class="pay-chip"><svg viewBox="0 0 60 16" xmlns="http://www.w3.org/2000/svg"><text x="0" y="13" font-family="Inter" font-weight="600" font-size="10" fill="#241716"> Apple Pay</text></svg></div>
+    <div class="pay-chip"><svg viewBox="0 0 60 16" xmlns="http://www.w3.org/2000/svg"><text x="0" y="13" font-family="Inter" font-weight="700" font-size="11" fill="#241716">mono</text></svg></div>
+  </div>
+</aside>
+
+<!-- ПРАВА ПАНЕЛЬ — КОШИК -->
+<aside class="drawer" id="cart-drawer" aria-label="Кошик">
+  <div class="drawer-head">
+    <h3>Ваш кошик</h3>
+    <button class="close-btn" onclick="closeCart()" aria-label="Закрити кошик">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-summary">
+    <div class="summary-row"><span>Товарів</span><span id="cart-sum-qty">0</span></div>
+    <div class="summary-row"><span>Доставка</span><span>за тарифами перевізника</span></div>
+    <div class="summary-row total"><span>Разом</span><span id="cart-sum-total">0 ₴</span></div>
+    <button class="btn btn-accent btn-block" onclick="checkout()">Оформити замовлення</button>
+  </div>
+</aside>
+
+<main id="app">
+
+  <section class="page active" id="page-home">
+    <div class="page-inner">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">Ручна робота · Український віск</span>
+          <h1>Тихе світло<br>для <em>вашого дому</em></h1>
+          <p>Бджолиний віск, бавовняний ґніт і аромати, зібрані з українських лугів та лісів. Без пафосу — просто чесна річ, яка добре горить.</p>
+          <div class="hero-ctas">
+            <button class="btn btn-accent" onclick="navigateTo('catalog')">Переглянути каталог</button>
+            <button class="btn btn-outline" onclick="navigateTo('about')">Наша філософія</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img class="hero-photo" src="https://images.unsplash.com/photo-1656231922827-7bc380cb8ed0?w=900&q=70&auto=format&fit=crop" alt="Палаюча свічка Voskova Svichka" loading="eager">
+        </div>
+      </div>
+
+      <div class="value-grid">
+        <div class="value-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C9 7 6 10 6 14a6 6 0 0 0 12 0c0-4-3-7-6-12Z"/></svg>
+          <h3>Натуральний віск</h3>
+          <p>Бджолиний та соєвий — без парафіну й нафтопохідних добавок.</p>
+        </div>
+        <div class="value-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg>
+          <h3>Ручна витопка</h3>
+          <p>Малі партії, температурний контроль вручну.</p>
+        </div>
+        <div class="value-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-9.5-9C.6 8 3 4 7 4c2 0 4 1 5 3 1-2 3-3 5-3 4 0 6.4 4 4.5 8-2.5 4.65-9.5 9-9.5 9Z"/></svg>
+          <h3>Без зайвого</h3>
+          <p>Проста форма, чесний склад, ціна без націнки за "люкс".</p>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <div><span class="eyebrow">Каталог</span><h2>Улюблене</h2></div>
+        <a class="link-arrow" onclick="navigateTo('catalog')">Весь каталог →</a>
+      </div>
+      <div class="catalog-grid" id="home-featured-grid"></div>
+    </div>
+  </section>
+
+  <section class="page" id="page-catalog">
+    <div class="page-inner">
+      <div class="catalog-head">
+        <span class="eyebrow">Колекція</span>
+        <h1>Каталог свічок</h1>
+        <p>Кожен аромат народжений із конкретного місця в Україні.</p>
+      </div>
+      <div class="filter-row" id="filter-row"></div>
+      <div class="catalog-grid" id="catalog-grid"></div>
+    </div>
+  </section>
+
+  <section class="page" id="page-about">
+    <div class="page-inner">
+      <div class="about-hero">
+        <span class="eyebrow">Наша історія</span>
+        <h1>Проста річ, зроблена чесно</h1>
+        <p>Voskova Svichka почалась із родинної пасіки на Поділлі та бажання зберегти запахи дитинства у формі, яку можна запалити.</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <h3>Віск, що дихає</h3>
+          <p>Уникаємо парафіну. Бджолиний віск горить чистіше й довше, майже не коптить.</p>
+        </div>
+        <div class="about-card">
+          <h3>Прості форми</h3>
+          <p>Глина та скло від українських майстерень — посуд лишається жити далі й після свічки.</p>
+        </div>
+        <div class="about-card">
+          <h3>Ґніт без металу</h3>
+          <p>Бавовняний ґніт горить тихіше й рівніше, без потріскування.</p>
+        </div>
+        <div class="about-card">
+          <h3>Чесна ціна</h3>
+          <p>Без націнки за декоративність упаковки — платите за віск, аромат і роботу майстра.</p>
+        </div>
+      </div>
+
+      <div class="section-title-center" style="margin-bottom: 32px;">
+        <span class="eyebrow">Шлях бренду</span>
+        <h2 style="margin-top:8px;">Від пасіки до вашого дому</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="yr">2019</div>
+          <div><h4>Перша витопка на кухні</h4><p>12 свічок з воску родинної пасіки — подарунки друзям на Різдво.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="yr">2021</div>
+          <div><h4>Власна майстерня</h4><p>Переїзд у невелику майстерню в Карпатах.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="yr">2023</div>
+          <div><h4>Співпраця з гончарями</h4><p>Форми ручної роботи від майстрів Опішні.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="yr">2026</div>
+          <div><h4>Сьогодні</h4><p>Понад 30 ароматів, доставка по всій країні.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-cart">
+    <div class="page-inner">
+      <div class="catalog-head">
+        <span class="eyebrow">Ваше замовлення</span>
+        <h1>Кошик</h1>
+      </div>
+      <div id="cart-page-content"></div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="bottom-bar">
+  <button class="bar-btn" id="bar-menu" onclick="openMenu()">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    <span>Меню</span>
+  </button>
+  <button class="bar-btn" id="bar-catalog" onclick="navigateTo('catalog')">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    <span>Каталог</span>
+  </button>
+  <button class="bar-btn" id="bar-cart" onclick="openCart()">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12L4 3H2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
+    <span>Кошик</span>
+    <span class="cart-count" id="cart-count-bar">0</span>
+  </button>
+</nav>
+
+<script>
+/* ============================================================================
+   VOSKOVA SVICHKA — JS ЛОГІКА SPA (без змін архітектури, лише візуал оновлено)
+   ============================================================================ */
+const PRODUCTS = [
+  { id: 'p1', name: 'Карпатський Ліс', category: 'Ліс', price: 420, desc: 'Сосна, мокра кора та дим смерекового багаття після дощу.', badge: 'Хіт',
+    photo: 'https://images.unsplash.com/photo-1656231922827-7bc380cb8ed0?w=600&q=70&auto=format&fit=crop' },
+  { id: 'p2', name: 'Медовий Спас', category: 'Мед', price: 380, desc: 'Липневий мед просто з вощини, теплий і густий.', badge: null,
+    photo: 'https://images.unsplash.com/photo-1672504534988-83b5c78ad7a8?w=600&q=70&auto=format&fit=crop' },
+  { id: 'p3', name: 'Соняшникове Поле', category: 'Поле', price: 360, desc: 'Стигле насіння, суха земля та літнє сонце.', badge: 'Новинка',
+    photo: 'https://images.unsplash.com/photo-1757688525739-8d1e13daf44f?w=600&q=70&auto=format&fit=crop' },
+  { id: 'p4', name: 'Бабусина Хата', category: 'Дім', price: 400, desc: 'Сушені трави, свіжий хліб та дерев\'яна підлога старої хати.', badge: null,
+    photo: 'https://images.unsplash.com/photo-1646389087115-9a4f03508ca1?w=600&q=70&auto=format&fit=crop' },
+  { id: 'p5', name: 'Степовий Вітер', category: 'Поле', price: 370, desc: 'Полин, ковила та суха трава степу під вечірнім вітром.', badge: null,
+    photo: 'https://images.unsplash.com/photo-1601747779082-77a8fe377ecc?w=600&q=70&auto=format&fit=crop' },
+  { id: 'p6', name: 'Різдвяна Ватра', category: 'Свято', price: 450, desc: 'Мандарин, гвоздика та тепла кориця біля багаття.', badge: 'Сезон',
+    photo: 'https://images.unsplash.com/photo-1509709364473-36085e4f84ee?w=600&q=70&auto=format&fit=crop' },
+  { id: 'p7', name: 'Яблуневий Сад', category: 'Сад', price: 350, desc: 'Стиглі яблука, прохолодна трава та легкий димок восени.', badge: null,
+    photo: 'https://images.unsplash.com/photo-1757688525739-8d1e13daf44f?w=600&q=70&auto=format&fit=crop&flip=h' },
+  { id: 'p8', name: 'Чорноморський Бриз', category: 'Море', price: 390, desc: 'Солона піна, нагріте сонцем каміння та полин.', badge: null,
+    photo: 'https://images.unsplash.com/photo-1601747779082-77a8fe377ecc?w=600&q=70&auto=format&fit=crop&flip=h' }
+];
+
+function getCategories(){ return ['Усі', ...new Set(PRODUCTS.map(p => p.category))]; }
+let activeCategory = 'Усі';
+
+function navigateTo(pageId){
+  const pages = document.querySelectorAll('.page');
+  const target = document.getElementById('page-' + pageId);
+  if(!target) return;
+  pages.forEach(p => { p.classList.remove('active', 'fade-in'); p.style.display = 'none'; });
+  target.style.display = 'block';
+  requestAnimationFrame(() => { target.classList.add('active', 'fade-in'); });
+  document.querySelectorAll('.drawer-nav a').forEach(a => a.classList.toggle('current', a.dataset.page === pageId));
+  document.querySelectorAll('.bar-btn').forEach(b => b.classList.remove('active'));
+  if(pageId === 'catalog') document.getElementById('bar-catalog').classList.add('active');
+  if(pageId === 'cart') renderCartPage();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+const overlay = document.getElementById('overlay');
+const menuDrawer = document.getElementById('menu-drawer');
+const cartDrawer = document.getElementById('cart-drawer');
+
+function openMenu(){ closeCart(); menuDrawer.classList.add('open'); overlay.classList.add('show'); document.getElementById('bar-menu').classList.add('active'); }
+function closeMenu(){ menuDrawer.classList.remove('open'); document.getElementById('bar-menu').classList.remove('active'); syncOverlay(); }
+function openCart(){ closeMenu(); renderCart(); cartDrawer.classList.add('open'); overlay.classList.add('show'); }
+function closeCart(){ cartDrawer.classList.remove('open'); syncOverlay(); }
+function closeAllDrawers(){ closeMenu(); closeCart(); }
+function syncOverlay(){ overlay.classList.toggle('show', menuDrawer.classList.contains('open') || cartDrawer.classList.contains('open')); }
+
+let cart = JSON.parse(localStorage.getItem('vs_cart') || '[]');
+function saveCart(){ localStorage.setItem('vs_cart', JSON.stringify(cart)); }
+
+function addToCart(productId){
+  const existing = cart.find(i => i.id === productId);
+  if(existing){ existing.qty += 1; } else { cart.push({ id: productId, qty: 1 }); }
+  saveCart(); updateCartBadges(true); renderCart();
+}
+function changeQty(productId, delta){
+  const item = cart.find(i => i.id === productId);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty <= 0){ cart = cart.filter(i => i.id !== productId); }
+  saveCart(); updateCartBadges(); renderCart();
+  if(document.getElementById('page-cart').classList.contains('active')) renderCartPage();
+}
+function removeFromCart(productId){
+  cart = cart.filter(i => i.id !== productId);
+  saveCart(); updateCartBadges(); renderCart();
+  if(document.getElementById('page-cart').classList.contains('active')) renderCartPage();
+}
+function cartTotalQty(){ return cart.reduce((sum, i) => sum + i.qty, 0); }
+function cartTotalPrice(){ return cart.reduce((sum, i) => { const p = PRODUCTS.find(pr => pr.id === i.id); return sum + (p ? p.price * i.qty : 0); }, 0); }
+
+function updateCartBadges(bump){
+  const qty = cartTotalQty();
+  [document.getElementById('cart-count-top'), document.getElementById('cart-count-bar')].forEach(b => {
+    if(!b) return;
+    b.textContent = qty;
+    if(bump){ b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); }
+  });
+}
+function checkout(){ if(cart.length === 0) return; alert('Дякуємо за замовлення! Це демо-версія — інтеграція з оплатою підключається окремо.'); }
+
+function productCardHTML(p){
+  return `
+    <article class="product-card card">
+      <div class="product-media">
+        ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+        <img class="product-photo" src="${p.photo}" alt="Свічка ${p.name}" loading="lazy">
+      </div>
+      <div class="product-body">
+        <span class="product-cat">${p.category}</span>
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>
+        <div class="product-foot">
+          <span class="product-price">${p.price} ₴</span>
+          <button class="add-btn" onclick="addToCart('${p.id}')" aria-label="Додати ${p.name} у кошик">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>`;
+}
+
+function renderFilters(){
+  document.getElementById('filter-row').innerHTML = getCategories().map(cat =>
+    `<button class="filter-chip ${cat === activeCategory ? 'active' : ''}" onclick="setCategory('${cat}')">${cat}</button>`
+  ).join('');
+}
+function setCategory(cat){ activeCategory = cat; renderFilters(); renderCatalog(); }
+function renderCatalog(){
+  const list = activeCategory === 'Усі' ? PRODUCTS : PRODUCTS.filter(p => p.category === activeCategory);
+  document.getElementById('catalog-grid').innerHTML = list.map(productCardHTML).join('');
+}
+function renderFeatured(){
+  const featured = PRODUCTS.filter(p => p.badge).slice(0, 3);
+  document.getElementById('home-featured-grid').innerHTML = (featured.length ? featured : PRODUCTS.slice(0,3)).map(productCardHTML).join('');
+}
+
+function renderCart(){
+  const list = document.getElementById('cart-items-list');
+  updateCartBadges();
+  document.getElementById('cart-sum-qty').textContent = cartTotalQty();
+  document.getElementById('cart-sum-total').textContent = cartTotalPrice() + ' ₴';
+  if(cart.length === 0){
+    list.innerHTML = `<div class="cart-empty-msg">Кошик поки порожній.<br>Додайте свою першу свічку з каталогу.</div>`;
+    return;
+  }
+  list.innerHTML = cart.map(item => {
+    const p = PRODUCTS.find(pr => pr.id === item.id);
+    if(!p) return '';
+    return `
+      <div class="cart-item">
+        <div class="cart-item-media"><img class="cart-item-photo" src="${p.photo}" alt="Свічка ${p.name}" loading="lazy"></div>
+        <div class="cart-item-info">
+          <h5>${p.name}</h5>
+          <span class="price">${p.price} ₴</span>
+          <div class="qty-row">
+            <button class="qty-btn" onclick="changeQty('${p.id}', -1)" aria-label="Зменшити кількість">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty('${p.id}', 1)" aria-label="Збільшити кількість">+</button>
+          </div>
+        </div>
+        <button class="remove-btn" onclick="removeFromCart('${p.id}')" aria-label="Видалити ${p.name}">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m-7 0 1 13a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2l1-13"/></svg>
+        </button>
+      </div>`;
+  }).join('');
+}
+
+function renderCartPage(){
+  const holder = document.getElementById('cart-page-content');
+  if(cart.length === 0){
+    holder.innerHTML = `
+      <div class="cart-page-empty card">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12L4 3H2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
+        <p>Ваш кошик поки порожній.</p>
+        <button class="btn btn-accent" onclick="navigateTo('catalog')">Перейти до каталогу</button>
+      </div>`;
+    return;
+  }
+  const rows = cart.map(item => {
+    const p = PRODUCTS.find(pr => pr.id === item.id);
+    if(!p) return '';
+    return `
+      <div class="cart-item" style="grid-template-columns: 64px 1fr auto;">
+        <div class="cart-item-media" style="width:64px;height:64px;"><img class="cart-item-photo" src="${p.photo}" alt="Свічка ${p.name}" loading="lazy"></div>
+        <div class="cart-item-info">
+          <h5 style="font-size:1rem;">${p.name}</h5>
+          <span class="price">${p.price} ₴ × ${item.qty} = ${p.price * item.qty} ₴</span>
+          <div class="qty-row">
+            <button class="qty-btn" onclick="changeQty('${p.id}', -1)" aria-label="Зменшити кількість">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty('${p.id}', 1)" aria-label="Збільшити кількість">+</button>
+          </div>
+        </div>
+        <button class="remove-btn" onclick="removeFromCart('${p.id}')" aria-label="Видалити ${p.name}">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m-7 0 1 13a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2l1-13"/></svg>
+        </button>
+      </div>`;
+  }).join('');
+  holder.innerHTML = `
+    <div class="cart-items card" style="padding:16px;">${rows}</div>
+    <div class="cart-summary card" style="padding:20px; margin-top:18px; border-top:1px solid var(--line);">
+      <div class="summary-row"><span>Товарів</span><span>${cartTotalQty()}</span></div>
+      <div class="summary-row total"><span>Разом</span><span>${cartTotalPrice()} ₴</span></div>
+      <button class="btn btn-accent btn-block" onclick="checkout()">Оформити замовлення</button>
+    </div>`;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderFilters(); renderCatalog(); renderFeatured(); updateCartBadges(); renderCart();
+  navigateTo('home');
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeAllDrawers(); });
+  window.addEventListener('scroll', () => {
+    document.getElementById('topbar').classList.toggle('scrolled', window.scrollY > 10);
+  });
+});
+</script>
+</body>
+</html>
